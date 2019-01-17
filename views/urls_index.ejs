@@ -1,0 +1,31 @@
+<!-- //in this file we will display all the URLs and their shortened forms
+// we need to bring the (urlDatabase) -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <% include ./partials/_head %>     
+  <title>TinyApp</title>
+</head>
+
+
+<body>
+
+    <h1> All URLs </h1>
+
+        <h1><% urls %></h1>
+        
+    
+        <ul>
+    <% for (var shortURL in urls) { %>
+        <li><%= shortURL %> <%= urls[shortURL] %> <form method="POST" action=<%= `/urls/${shortURL}/delete` %>>
+            <button type="submit">DELETE</button></form>
+            <form method="GET" action=<%= `/urls/${shortURL}` %>>
+            <button type="submit">EDIT</button></form></li>
+            
+    <% } %>
+    </ul>
+     
+
+    
+</body>
+</html>

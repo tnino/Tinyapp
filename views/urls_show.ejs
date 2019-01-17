@@ -1,0 +1,26 @@
+
+    <html>
+
+    <head>
+        <% include ./partials/_head %>
+            <meta charset="utf-8" />
+            <title>TinyApp</title>
+    </head>
+
+    <body>
+
+        <h1>EDIT URL</h1>
+
+        <ul>
+            <li>
+                <%= shortURL %>
+                    <%= urls[shortURL] %>
+                        <form method="POST" action=<%=`/urls/${shortURL}` %>>
+                            <input type=text name="newurl" placeholder<%= longURL%>/>
+                            <button type="submit">UPDATE</button>
+                        </form>
+   
+                    </body>
+                    </html>
+
+            
