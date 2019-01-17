@@ -1,0 +1,22 @@
+    <!DOCTYPE html>
+<html lang="en">
+  <head></head>
+  <body style="font-size:20px; padding:50px;">
+    <hi>Log in: </hi>
+
+        <% if (username) { %>
+            <form method="POST" action=<%=`/logout` %>> 
+               <h2> you are log in as  <%=  username %> </h2> 
+               <button type="logout">logout</button> 
+            </form>
+        <% } else { %> 
+            <form method="POST" action=<%=`/login` %>> 
+                <input type=text name="username" value"" %>>
+                <button type="submit">login</button>
+            </form>
+        <% } %>
+     
+    
+        
+        </body>
+</html>

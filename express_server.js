@@ -2,12 +2,19 @@ var express = require("express");
 var app = express();
 var PORT = 8080; // default port 8080
 var morgan = require('morgan')
+var express = require('express')
+var cookieParser = require('cookie-parser')
+
+var app = express()
+app.use(cookieParser())
 
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.set("view engine", "ejs");
 app.use(morgan('dev'));
+
+
 var urlDatabase = {
   "b2xVn2": "http://www.lighthouselabs.ca",
   "9sm5xK": "http://www.google.com",
@@ -28,7 +35,7 @@ app.get("/hello", (req, res) => {
 
 ///mainpage
 app.get("/urls", (req, res) => {
-  let templateVars = { urls: urlDatabase };
+  let templateVars = { urls: urlDatabase, username: req.cookies["username"]};
   res.render("urls_index", templateVars);
 });
 
@@ -64,7 +71,8 @@ app.post('/urls/:id/delete', function (request, response) {
 
 //editing page 
 app.get("/urls/:id", (req, res) => {
-  let templateVars = { shortURL: req.params.id, urls: urlDatabase, longURL: urlDatabase[req.params.id] };
+  let templateVars = { shortURL: req.params.id, urls: urlDatabase, longURL: urlDatabase[req.params.id],
+    username: req.cookies["username"]};
   res.render("urls_show", templateVars);
 });
 
@@ -80,6 +88,20 @@ app.post("/urls/:id", (request, response) => {
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });
+
+// cookies log in 
+app.post("/login", (request, response) => {
+let username = request.body.username
+response.cookie('username', username) 
+response.redirect('/urls')
+console.log("name" + ", you have successfully logged in !")
+});
+
+// cookies log out
+app.post("/logout", (request, response) => {
+response.clearCookie('username');
+response.redirect('/urls')
+  });
 
 //random function
 function generateRandomString() {
