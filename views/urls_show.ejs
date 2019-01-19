@@ -14,7 +14,8 @@
         <ul>
             <li>
                 <%= shortURL %>
-                    <%= urls[shortURL] %>
+                   
+                    <%= urls[shortURL].longURL %>
                         <form method="POST" action=<%=`/urls/${shortURL}` %>>
                             <label for="new url ">updated URL:</label>
                             <input type=text name="newurl" placeholder<%= longURL%>/>

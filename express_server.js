@@ -85,7 +85,6 @@ function urlsForUserId(id) {
     newUrls[A] = urlDatabase[A]
   }
  }
-
  return newUrls
 }
 
@@ -100,21 +99,21 @@ app.get("/urls/new", (req, res) => {
 
 //redirect page
 app.get("/u/:shortURL", (req, res) => {
-  let longURL = urlDatabase[req.params.shortURL]
+  let longURL = urlDatabase[req.params.shortURL].longURL
   console.log(longURL);
   res.redirect(longURL);
-
-
 });
 
 //ADD a new link
-app.post("/urls", (req, response) => {
+app.post("/urls", (request, response) => {
   let newurl = generateRandomString()
-  let longURL = req.body.longURL
+  let longURL = request.body.longURL
   let shortURL = newurl
-  urlDatabase[shortURL] = longURL;
+  urlDatabase[shortURL] = {
+    longURL: request.body.longURL,
+    user_id: request.cookies["user_id"]};
   console.log(urlDatabase);
-  console.log(req.body);  // debug statement to see POST parameters
+  console.log(request.body);  // debug statement to see POST parameters
   response.redirect('/urls')         // Respond with 'Ok' (we will replace this) 
 });
 
@@ -136,22 +135,24 @@ app.post('/urls/:id/delete', function (request, response) {
 // allow to modify 
 
 //editing page 
-app.get("/urls/:id", (req, res) => {
-  let user_id = req.cookies["user_id"];
+app.get("/urls/:id", (request, response) => {
+  let user_id = request.cookies["user_id"];
   let user = users[user_id];
-  let templateVars = { shortURL: req.params.id, 
+  let templateVars = { shortURL: request.params.id, 
                       urls: urlDatabase, 
-                      longURL: urlDatabase[req.params.id],
+                      longURL: urlDatabase[request.params.id],
                       username: users.email 
     };
-  res.render("urls_show", templateVars);
+  response.render("urls_show", templateVars);
 });
 
 //MAKE changes
 app.post("/urls/:id", (request, response) => {
   console.log(request.body.newurl)
   let urlsToEditId = request.params.id
-  urlDatabase[urlsToEditId] = request.body.newurl
+  let user_id = request.cookies["user_id"];
+  
+  urlDatabase[urlsToEditId].longURL = request.body.newurl
 
   response.redirect('/urls')
 });
@@ -254,4 +255,3 @@ function generateRandomString() {
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });
-
