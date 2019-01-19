@@ -2,7 +2,9 @@
 <html lang="en">
   <head></head>
   <body style="font-size:20px; padding:50px;">
-    <hi>Log in: </hi>
+
+
+  <br>
 
         <% if (username) { %>
             <form method="POST" action=<%=`/logout` %>> 
@@ -10,13 +12,17 @@
                <button type="logout">logout</button> 
             </form>
         <% } else { %> 
-            <form method="POST" action=<%=`/login` %>> 
-                <input type=text name="username" value"" %>>
-                <button type="submit">login</button>
+          
+                 <br>
+                 <form method="GET"  action= <%=`/login` %>>    
+                <label for="login"> If you are register already, please log In! </label>
+                <button type="submit">LOG IN</button></form>
+<br>
+                <form method="GET" action= <%=`/register` %>> 
+                <label for="register"> If you are not register already, please register! </label>
+               <button type="submit">REGISTER</button> 
             </form>
-        <% } %>
-     
-    
-        
+
+            <% } %>       
         </body>
 </html>

@@ -16,10 +16,41 @@ app.use(morgan('dev'));
 
 
 var urlDatabase = {
-  "b2xVn2": "http://www.lighthouselabs.ca",
-  "9sm5xK": "http://www.google.com",
-  "pkwTRK": "http://www.instagram.com"
+ "b2xVn2": {longURL:"http://www.lighthouselabs.ca", user_id: "" },
+ "9sm5xK": {longURL:"http://www.google.com", user_id: "" },
+ "pkwTRK": {longURL:"http://www.instagram.com", user_id: "" }
 };
+
+/// User database
+const users = {
+  "userRandomID1": {
+    user_id: "userRandomID1",
+    email: "tatiana@homeaway.com",
+    password: "tacos"
+  },
+ "user2RandomID2": {
+    user_id: "user2RandomID2",
+    email: "jake@homeaway.com",
+    password: "disneyland"
+  },
+  "user2RandomID3": {
+    user_id: "user2RandomID3",
+    email: "kristen@homeaway.com",
+    password: "waterloo"
+  }
+}
+
+//random user id
+function generateRandomId() {
+  let chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
+  let string_length = 8;
+  let randomid = '';
+  for (var i = 0; i < string_length; i++) {
+    var rnum = Math.floor(Math.random() * chars.length);
+    randomid += chars.substring(rnum, rnum + 1);
+  }
+  return randomid
+}
 
 app.get("/", (req, res) => {
   res.send("Hello!");
@@ -33,15 +64,41 @@ app.get("/hello", (req, res) => {
   res.send("<html><body>Hello <b>World</b></body></html>\n");
 });
 
-///mainpage
 app.get("/urls", (req, res) => {
-  let templateVars = { urls: urlDatabase, username: req.cookies["username"]};
-  res.render("urls_index", templateVars);
+  let user_id = req.cookies["user_id"];
+  let user = users[user_id];
+
+  if (!user) {
+    res.redirect('/login');
+  } else {
+    let templateVars = { 
+      urls: urlsForUserId (used_id),
+      username: user.email
+    };
+    res.render("urls_index", templateVars); 
+    
+     
+  }
 });
 
+function urlsForUserId (id) {
+ var newUrl = {};
+  for (var A in urlDatabase)
+  if (id == urlDatabase[A].user_id){
+  newUrl[urlDatabase[A] = urlDatabase[A]
+  }
+ else{
+  alert("You are not login or register, please do");
+}
+}
+response.render('/urls')
+
 //create a new url
-app.get("/url", (req, res) => {
+app.get("/urls/new", (req, res) => {
   res.render("urls_new");
+ if (!user) {
+    res.redirect('/login');
+ }
 });
 
 //redirect page
@@ -49,6 +106,8 @@ app.get("/u/:shortURL", (req, res) => {
   let longURL = urlDatabase[req.params.shortURL]
   console.log(longURL);
   res.redirect(longURL);
+
+
 });
 
 //ADD a new link
@@ -67,12 +126,27 @@ app.post('/urls/:id/delete', function (request, response) {
   let urlsToDeleteId = request.params.id
   delete urlDatabase[urlsToDeleteId]
   response.redirect('/urls')
+  
+  if
+ (urlDatabase.user_id == req.cookies["user_id"]){
+  req.cookies["urls/:shortURL"]
+ }
+ else {
+  response.redirect('/login')
+}
 })
+
+// allow to modify 
 
 //editing page 
 app.get("/urls/:id", (req, res) => {
-  let templateVars = { shortURL: req.params.id, urls: urlDatabase, longURL: urlDatabase[req.params.id],
-    username: req.cookies["username"]};
+  let user_id = req.cookies["user_id"];
+  let user = users[user_id];
+  let templateVars = { shortURL: req.params.id, 
+                      urls: urlDatabase, 
+                      longURL: urlDatabase[req.params.id],
+                      username: users.email 
+    };
   res.render("urls_show", templateVars);
 });
 
@@ -85,23 +159,88 @@ app.post("/urls/:id", (request, response) => {
   response.redirect('/urls')
 });
 
-app.listen(PORT, () => {
-  console.log(`Example app listening on port ${PORT}!`);
-});
-
-// cookies log in 
-app.post("/login", (request, response) => {
-let username = request.body.username
-response.cookie('username', username) 
-response.redirect('/urls')
-console.log("name" + ", you have successfully logged in !")
-});
-
 // cookies log out
 app.post("/logout", (request, response) => {
-response.clearCookie('username');
-response.redirect('/urls')
+  //changed the cookie name form username to user_id
+response.clearCookie('user_id');
+response.redirect('/login')
   });
+
+
+app.get('/register', (req, res) => {
+  res.render('register')
+})
+
+// set cookies for username and password and User ID 
+app.post('/register', (req, res) => {
+let user_id = generateRandomId();
+let email = req.body.email
+let password = req.body.password
+
+console.log(user_id)
+let userInDatabaseEmail = false
+//a for loop that finds a user with that email in our database
+
+for (var id in users) {
+  if (users[id].email === email) {
+  
+// if you find it, put that users email in userInDatabaseEmail
+//if true 
+userInDatabaseEmail = true
+}
+}
+
+ if (email === ''){
+    res.status(400).send("Error code:400 -Sorry! try registering using an email.");
+  } else if (password=== ''){
+    res.status(400).send("Error code:400 -Sorry! try registering using a password.");
+  } else if (userInDatabaseEmail === true){
+    res.status(400).send("Error code:400 - Sorry! Email has been already register, Pick a unique email");
+  }
+  else {
+    users[user_id] = { user_id: user_id,
+      email: email, password: password};
+      res.cookie('user_id', user_id)
+     res.redirect('/urls')
+  }
+
+  })
+
+  app.get('/login', (request, response) => {
+    response.render('login')
+  })
+
+  app.post('/login', (request, response) => {
+    let password = request.body.password
+    let email = request.body.email
+    
+    console.log(password,email);
+    
+    //a for IN loop that finds if user or password has been register
+    for (var id in users) {
+      if (users[id].email === email) { 
+        if (users[id].password === password) { 
+             response.cookie('user_id', id)
+             response.redirect('/urls')
+        }
+      }
+    }
+
+    response.status(400).send("wrong, The email or password is inccorrect");
+
+ }) 
+
+  //random user id
+function generateRandomId() {
+  let chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
+  let string_length = 8;
+  let randomid = '';
+  for (var i = 0; i < string_length; i++) {
+    var rnum = Math.floor(Math.random() * chars.length);
+    randomid += chars.substring(rnum, rnum + 1);
+  }
+  return randomid
+}
 
 //random function
 function generateRandomString() {
@@ -114,4 +253,8 @@ function generateRandomString() {
   }
   return results
 }
-generateRandomString()
+
+app.listen(PORT, () => {
+  console.log(`Example app listening on port ${PORT}!`);
+});
+

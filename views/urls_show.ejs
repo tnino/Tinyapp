@@ -9,13 +9,14 @@
 
     <body>
 
-        <h1>EDIT URL</h1>
+        <h1>Edit URL</h1>
 
         <ul>
             <li>
                 <%= shortURL %>
                     <%= urls[shortURL] %>
                         <form method="POST" action=<%=`/urls/${shortURL}` %>>
+                            <label for="new url ">updated URL:</label>
                             <input type=text name="newurl" placeholder<%= longURL%>/>
                             <button type="submit">UPDATE</button>
                         </form>
