@@ -16,9 +16,9 @@ app.use(morgan('dev'));
 
 
 var urlDatabase = {
- "b2xVn2": {longURL:"http://www.lighthouselabs.ca", user_id: "" },
- "9sm5xK": {longURL:"http://www.google.com", user_id: "" },
- "pkwTRK": {longURL:"http://www.instagram.com", user_id: "" }
+ "b2xVn2": {longURL:"http://www.lighthouselabs.ca", user_id: "userRandomID1" },
+ "9sm5xK": {longURL:"http://www.google.com", user_id: "user2RandomID2" },
+ "pkwTRK": {longURL:"http://www.instagram.com", user_id: "user2RandomID3" }
 };
 
 /// User database
@@ -67,31 +67,28 @@ app.get("/hello", (req, res) => {
 app.get("/urls", (req, res) => {
   let user_id = req.cookies["user_id"];
   let user = users[user_id];
-
-  if (!user) {
+   if (!user) {
     res.redirect('/login');
   } else {
     let templateVars = { 
-      urls: urlsForUserId (used_id),
+      urls: urlsForUserId (user_id),
       username: user.email
     };
-    res.render("urls_index", templateVars); 
-    
-     
+    res.render("urls_index", templateVars);    
   }
 });
 
-function urlsForUserId (id) {
- var newUrl = {};
-  for (var A in urlDatabase)
+function urlsForUserId(id) {
+ var newUrls = {};
+ for (var A in urlDatabase) {
   if (id == urlDatabase[A].user_id){
-  newUrl[urlDatabase[A] = urlDatabase[A]
+    newUrls[A] = urlDatabase[A]
   }
- else{
-  alert("You are not login or register, please do");
+ }
+
+ return newUrls
 }
-}
-response.render('/urls')
+
 
 //create a new url
 app.get("/urls/new", (req, res) => {
