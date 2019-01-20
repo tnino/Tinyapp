@@ -3,10 +3,17 @@ var app = express();
 var PORT = 8080; // default port 8080
 var morgan = require('morgan')
 var express = require('express')
-var cookieParser = require('cookie-parser')
+var cookieSession = require('cookie-session')
+const bcrypt = require('bcrypt');
 
 var app = express()
-app.use(cookieParser())
+app.use(cookieSession({
+  name: 'session',
+  keys: ["tacos"],
+
+  // Cookie Options
+  maxAge: 24 * 60 * 60 * 1000 // 24 hours
+}))
 
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -26,17 +33,17 @@ const users = {
   "userRandomID1": {
     user_id: "userRandomID1",
     email: "tatiana@homeaway.com",
-    password: "tacos"
+    password: bcrypt.hashSync("tacos", 10)
   },
  "user2RandomID2": {
     user_id: "user2RandomID2",
     email: "jake@homeaway.com",
-    password: "disneyland"
+    password: bcrypt.hashSync("disneyland", 10)
   },
   "user2RandomID3": {
     user_id: "user2RandomID3",
     email: "kristen@homeaway.com",
-    password: "waterloo"
+    password: bcrypt.hashSync("water", 10)
   }
 }
 
@@ -52,29 +59,29 @@ function generateRandomId() {
   return randomid
 }
 
-app.get("/", (req, res) => {
-  res.send("Hello!");
+app.get("/", (request, response) => {
+  response.send("Hello!");
 });
 
-app.get("/urls.json", (req, res) => {
-  res.json(urlDatabase);
+app.get("/urls.json", (request, response) => {
+  response.json(urlDatabase);
 });
 
-app.get("/hello", (req, res) => {
-  res.send("<html><body>Hello <b>World</b></body></html>\n");
+app.get("/hello", (request, response) => {
+  response.send("<html><body>Hello <b>World</b></body></html>\n");
 });
 
-app.get("/urls", (req, res) => {
-  let user_id = req.cookies["user_id"];
+app.get("/urls", (request, response) => {
+  let user_id = request.session["user_id"];
   let user = users[user_id];
    if (!user) {
-    res.redirect('/login');
+    response.redirect('/login');
   } else {
     let templateVars = { 
       urls: urlsForUserId (user_id),
       username: user.email
     };
-    res.render("urls_index", templateVars);    
+    response.render("urls_index", templateVars);    
   }
 });
 
@@ -90,18 +97,18 @@ function urlsForUserId(id) {
 
 
 //create a new url
-app.get("/urls/new", (req, res) => {
-  res.render("urls_new");
+app.get("/urls/new", (request, response) => {
+  response.render("urls_new");
  if (!user) {
-    res.redirect('/login');
+    response.redirect('/login');
  }
 });
 
 //redirect page
-app.get("/u/:shortURL", (req, res) => {
-  let longURL = urlDatabase[req.params.shortURL].longURL
+app.get("/u/:shortURL", (request, response) => {
+  let longURL = urlDatabase[request.params.shortURL].longURL
   console.log(longURL);
-  res.redirect(longURL);
+  response.redirect(longURL);
 });
 
 //ADD a new link
@@ -111,7 +118,7 @@ app.post("/urls", (request, response) => {
   let shortURL = newurl
   urlDatabase[shortURL] = {
     longURL: request.body.longURL,
-    user_id: request.cookies["user_id"]};
+    user_id: request.session["user_id"]};
   console.log(urlDatabase);
   console.log(request.body);  // debug statement to see POST parameters
   response.redirect('/urls')         // Respond with 'Ok' (we will replace this) 
@@ -124,8 +131,8 @@ app.post('/urls/:id/delete', function (request, response) {
   response.redirect('/urls')
   
   if
- (urlDatabase.user_id == req.cookies["user_id"]){
-  req.cookies["urls/:shortURL"]
+ (urlDatabase.user_id == request.session["user_id"]){
+  request.session["urls/:shortURL"]
  }
  else {
   response.redirect('/login')
@@ -136,7 +143,7 @@ app.post('/urls/:id/delete', function (request, response) {
 
 //editing page 
 app.get("/urls/:id", (request, response) => {
-  let user_id = request.cookies["user_id"];
+  let user_id = request.session["user_id"];
   let user = users[user_id];
   let templateVars = { shortURL: request.params.id, 
                       urls: urlDatabase, 
@@ -150,7 +157,7 @@ app.get("/urls/:id", (request, response) => {
 app.post("/urls/:id", (request, response) => {
   console.log(request.body.newurl)
   let urlsToEditId = request.params.id
-  let user_id = request.cookies["user_id"];
+  let user_id = request.session["user_id"];
   
   urlDatabase[urlsToEditId].longURL = request.body.newurl
 
@@ -160,20 +167,24 @@ app.post("/urls/:id", (request, response) => {
 // cookies log out
 app.post("/logout", (request, response) => {
   //changed the cookie name form username to user_id
-response.clearCookie('user_id');
+request.session.user_id;
+
+
 response.redirect('/login')
   });
 
 
-app.get('/register', (req, res) => {
-  res.render('register')
+app.get('/register', (request, response) => {
+  response.render('register')
 })
 
 // set cookies for username and password and User ID 
-app.post('/register', (req, res) => {
+app.post('/register', (request, response) => {
 let user_id = generateRandomId();
-let email = req.body.email
-let password = req.body.password
+let email = request.body.email
+let password = request.body.password
+const hashedPassword = bcrypt.hashSync(password, 10);
+
 
 console.log(user_id)
 let userInDatabaseEmail = false
@@ -189,19 +200,18 @@ userInDatabaseEmail = true
 }
 
  if (email === ''){
-    res.status(400).send("Error code:400 -Sorry! try registering using an email.");
+    response.status(400).send("Error code:400 -Sorry! try registering using an email.");
   } else if (password=== ''){
-    res.status(400).send("Error code:400 -Sorry! try registering using a password.");
+    response.status(400).send("Error code:400 -Sorry! try registering using a password.");
   } else if (userInDatabaseEmail === true){
-    res.status(400).send("Error code:400 - Sorry! Email has been already register, Pick a unique email");
+    response.status(400).send("Error code:400 - Sorry! Email has been already register, Pick a unique email");
   }
   else {
     users[user_id] = { user_id: user_id,
-      email: email, password: password};
-      res.cookie('user_id', user_id)
-     res.redirect('/urls')
-  }
-
+      email: email, password: hashedPassword}
+      request.session.user_id = user_id
+      response.redirect('/urls')
+    }
   })
 
   app.get('/login', (request, response) => {
@@ -217,8 +227,8 @@ userInDatabaseEmail = true
     //a for IN loop that finds if user or password has been register
     for (var id in users) {
       if (users[id].email === email) { 
-        if (users[id].password === password) { 
-             response.cookie('user_id', id)
+        if (bcrypt.compareSync(password, users[id].password)){ 
+             request.session.user_id = id
              response.redirect('/urls')
         }
       }
