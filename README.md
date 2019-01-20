@@ -27,8 +27,15 @@ mpn run Express
 
 ## ScreenShots
 
-still need to add screen shots
+### preview of the log in page
+![“Screenshot 1”](https://github.com/lighthouse-labs/tinyapp/blob/master.docs.urls-page.png)
 
+![“Screenshot 1”] file:///Users/tnino/Desktop/Screen%20Shot%202019-01-20%20at%203.18.59%20PM.png
+
+### preview of how to convert a long url in a short one
+
+
+### preview the short Url direct
 
 
 You should be ready to go, enjoy :+1:
