@@ -14,11 +14,22 @@ In order to make this app work, you need to make sure that this packages are ins
 
 # Install 
 You must install all the dependecies before running the server
-to install run command  - mpn run (package- required)
+to install run command  
+
+```
+mpn run (package- required)
+``` 
+example: to run Express:
+
+```
+mpn run Express
+``` 
 
 # ScreenShots
 
 still need to add screen shots
 
-@octocat :+1: You should be ready to go, enjoy :+1:
+
+
+You should be ready to go, enjoy :+1:
 
