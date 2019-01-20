@@ -36,7 +36,7 @@ mpn run Express
 
 
 ### preview the short Url direct
-![ScreenShot](https://tnino.github.com/tnino/tinyapp/views/urls_show.ejs)
+![ScreenShot](https://https://www.homeaway.com/?k_clickid=EAIaIQobChMIqc2816f93wIVm7XACh2mZA_GEAAYASAAEgLWjPD_BwE&ds_cid=71700000023060500&ds_kids=p21216295568&ds_kid=43700021216295568&ksprof_id=700000001560842&ksdevice=c&ktarget=kwd-364129153197&kloct=&klocf=9028279&ds_aid=58700002482527156&ha_t=1t1:g:&gclid=EAIaIQobChMIqc2816f93wIVm7XACh2mZA_GEAAYASAAEgLWjPD_BwE&gclsrc=aw.ds)
 
 You should be ready to go, enjoy :+1:
 
