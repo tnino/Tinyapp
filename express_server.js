@@ -20,7 +20,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.set("view engine", "ejs");
 app.use(morgan('dev'));
-
+app.use(express.static('public'));
 
 var urlDatabase = {
  "b2xVn2": {longURL:"http://www.lighthouselabs.ca", user_id: "userRandomID1" },
