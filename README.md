@@ -1,6 +1,7 @@
 # Tinyapp
 # Description
-This project is designed for you to enter a long URL and obtaining ashort URl so is easier 
+This project is designed for you to enter a long URL and obtaining ashort URl so is easier for you to share with your friends.
+
 
 # Packages required: 
 -Express
