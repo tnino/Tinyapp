@@ -32,10 +32,13 @@
             <form method="GET" action=<%=`/urls/${shortURL}` %>>
                 <label for="login"> If you want to edit a long link into a short link </label><br>
                 <button type="submit">EDIT</button></form>
+            <form method="GET" action=<%=`/u/${shortURL}` %>>
+                <label for="login"> If you want to redirect to the website </label><br>
+                <button type="submit">REDIRECT</button></form>
         <% } %>
     </ul>
 
-
+    <center><hi>ADD MORE</hi></center>
 
     <form method="GET" action=<%=`/urls/new` %>>
         <label for="login"> If you want to convert a long link into a short link </label><br>
