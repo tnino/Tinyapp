@@ -27,13 +27,13 @@ mpn run Express
 
 ## ScreenShots
 
-### preview of the log in page
+### preview of how to convert a long URL into a short one
 https://www.screencast.com/t/E9lZnwN8Xp
 
-### preview of how to convert a long url in a short one
+### preview of how to modify the link if you make a typo.
 https://www.screencast.com/t/sQAUvEtZkhSD
 
-### preview the short Url direct
+### preview of all the URLs that you have created and an option to delete if you dont longer need it.
 
 https://www.screencast.com/t/R8gleO9H
 
