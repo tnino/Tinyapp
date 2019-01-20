@@ -1,26 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
 
-    <html>
+<head>
+    <link rel="stylesheet" href="/css/style.css">
+    <% include ./partials/_head %>
+</head>
 
-    <head>
-        <% include ./partials/_head %>
-            <meta charset="utf-8" />
-            <title>TinyApp</title>
-    </head>
+<body>
 
-    <body>
 
-        <h1>Edit URL</h1>
 
-        <ul>
-            <li>
-                <%= shortURL %>
-                   
-                    <%= urls[shortURL].longURL %>
-                        <form method="POST" action=<%=`/urls/${shortURL}` %>>
-                            <label for="new url ">updated URL:</label>
-                            <input type=text name="newurl" placeholder<%= longURL%>/>
-                            <button type="submit">UPDATE</button>
-                        </form>
-   
-                    </body>
-                    </html>  
+    <ul>
+        <center>
+            <%= shortURL %> <br>
+          
+            <%= urls[shortURL].longURL %>
+            </center>  
+            <form method="POST" action=<%=`/urls/${shortURL}` %>>
+                <label for="new url ">updated URL:</label><br>
+                <input type=text name="newurl" placeholder<%=longURL%>/><br>
+                <button type="submit">UPDATE</button>
+            </form>
+
+</body>
+
+</html>

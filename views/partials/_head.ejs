@@ -1,27 +1,30 @@
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
-  <head></head>
-  <body style="font-size:20px; padding:50px;">
 
+<head></head>
 
-  <br>
-        <% if (username) { %>
-            <form method="POST" action=<%=`/logout` %>> 
-               <h2> you are log in as  <%=  username %> </h2> 
-               <button type="logout">logout</button> 
-            </form>
-        <% } else { %> 
-          
-                 <br>
-                 <form method="GET"  action= <%=`/login` %>>    
-                <label for="login"> If you are register already, please log In! </label>
-                <button type="submit">LOG IN</button></form>
-<br>
-                <form method="GET" action= <%=`/register` %>> 
-                <label for="register"> If you are not register already, please register! </label>
-               <button type="submit">REGISTER</button> 
-            </form>
+<body>
+    <br>
+    <% if (username) { %>
+    <form method="POST" action=<%=`/logout` %>>
+        <h2> you are log in as <br><br>
+            <%=  username %>
+        </h2>
+        <button type="submit">logout</button>
+    </form>
+    <% } else { %>
 
-            <% } %>       
-        </body>
+    <br>
+    <form method="GET" action=<%=`/login` %>>
+        <label for="login"> If you are register already, please log In!</label><br>
+        <button type="submit">LOG IN</button></form>
+    <br>
+    <form method="GET" action=<%=`/register` %>>
+        <label for="register"> If you are not register already, please register! </label><br>
+        <button type="submit">REGISTER</button>
+    </form>
+
+    <% } %>
+</body>
+
 </html>

@@ -1,33 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
- <link rel="stylesheet" href="css/style.css"> 
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 
 <body>
-    test
-    <header><% include ./partials/_head %></header>
 
-    <h1> All URLs </h1>
+    <header>
+        <% include ./partials/_head %>
+    </header>
 
-        <h1><% urls %></h1>    
-    
-        <ul>
-    <% for (var shortURL in urls) { %>
-        <li><%= shortURL %> <%= urls[shortURL].longURL %> <form method="POST" action=<%= `/urls/${shortURL}/delete` %>>
-            <button type="submit">DELETE</button></form>
-            <form method="GET" action=<%= `/urls/${shortURL}` %>>
-            <button type="submit">EDIT</button></form></li>         
-    <% } %>
+    <center>
+        <h1> All URLs that you have created: </h1>
+    </center>
+
+    <center>
+        <h1>
+            <% urls %>
+        </h1>
+    </center>
+
+    <ul>
+        <% for (var shortURL in urls) { %>
+        
+        <center><%= shortURL %></center>
+        <center><%= urls[shortURL].longURL %></center>
+            <form method="POST" action=<%=`/urls/${shortURL}/delete` %>>
+                <label for="login"> If you want to delete a long URL </label><br><button type="submit">DELETE</button></form>
+            <form method="GET" action=<%=`/urls/${shortURL}` %>>
+                <label for="login"> If you want to edit a long link into a short link </label><br>
+                <button type="submit">EDIT</button></form>
+        <% } %>
     </ul>
-     
 
 
-    <form method="GET"  action= <%=`/urls/new` %>>    
-                <label for="login"> If you want to convert a long link into a short link </label>
-                <button type="submit">CONVERT</button></form>
-                
-    
+
+    <form method="GET" action=<%=`/urls/new` %>>
+        <label for="login"> If you want to convert a long link into a short link </label><br>
+        <button type="submit">CONVERT</button></form>
+
+
 </body>
+
 </html>

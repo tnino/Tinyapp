@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-     
-  </head>
-  <body style="font-size:20px; padding:50px;">
-    <hi>Log in: </hi>
-            <form method="POST" action=<%=`/login` %>> 
-                 <label for="password">Email:</label>
-                 <input type=text name="email" value"" %>>
-                 <label for="password">Password:</label>
-                 <input type=password name="password" value"" %>>
-                <button type="submit">LOGIN</button>
-            </form>
-        </body>
+
+<head>
+<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body style="font-size:20px; padding:50px;">
+  <form method="POST" action=<%=`/login` %>>
+    <label for="password">Email:</label><br>
+    <input type=text name="email" value"" %>><br>
+    <label for="password">Password:</label><br>
+    <input type=password name="password" value"" %>><br>
+    <button type="submit">LOGIN</button>
+  </form>
+</body>
+
 </html>

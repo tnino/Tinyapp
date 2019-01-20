@@ -16,16 +16,27 @@ app.use(cookieSession({
 }))
 
 const bodyParser = require("body-parser");
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 
 app.set("view engine", "ejs");
 app.use(morgan('dev'));
 app.use(express.static('public'));
 
 var urlDatabase = {
- "b2xVn2": {longURL:"http://www.lighthouselabs.ca", user_id: "userRandomID1" },
- "9sm5xK": {longURL:"http://www.google.com", user_id: "user2RandomID2" },
- "pkwTRK": {longURL:"http://www.instagram.com", user_id: "user2RandomID3" }
+  "b2xVn2": {
+    longURL: "http://www.lighthouselabs.ca",
+    user_id: "userRandomID1"
+  },
+  "9sm5xK": {
+    longURL: "http://www.google.com",
+    user_id: "user2RandomID2"
+  },
+  "pkwTRK": {
+    longURL: "http://www.instagram.com",
+    user_id: "user2RandomID3"
+  }
 };
 
 /// User database
@@ -35,7 +46,7 @@ const users = {
     email: "tatiana@homeaway.com",
     password: bcrypt.hashSync("tacos", 10)
   },
- "user2RandomID2": {
+  "user2RandomID2": {
     user_id: "user2RandomID2",
     email: "jake@homeaway.com",
     password: bcrypt.hashSync("disneyland", 10)
@@ -74,34 +85,34 @@ app.get("/hello", (request, response) => {
 app.get("/urls", (request, response) => {
   let user_id = request.session["user_id"];
   let user = users[user_id];
-   if (!user) {
+  if (!user) {
     response.redirect('/login');
   } else {
-    let templateVars = { 
-      urls: urlsForUserId (user_id),
+    let templateVars = {
+      urls: urlsForUserId(user_id),
       username: user.email
     };
-    response.render("urls_index", templateVars);    
+    response.render("urls_index", templateVars);
   }
 });
 
 function urlsForUserId(id) {
- var newUrls = {};
- for (var A in urlDatabase) {
-  if (id == urlDatabase[A].user_id){
-    newUrls[A] = urlDatabase[A]
+  var newUrls = {};
+  for (var A in urlDatabase) {
+    if (id == urlDatabase[A].user_id) {
+      newUrls[A] = urlDatabase[A]
+    }
   }
- }
- return newUrls
+  return newUrls
 }
 
 
 //create a new url
 app.get("/urls/new", (request, response) => {
   response.render("urls_new");
- if (!user) {
+  if (!user) {
     response.redirect('/login');
- }
+  }
 });
 
 //redirect page
@@ -118,10 +129,11 @@ app.post("/urls", (request, response) => {
   let shortURL = newurl
   urlDatabase[shortURL] = {
     longURL: request.body.longURL,
-    user_id: request.session["user_id"]};
+    user_id: request.session["user_id"]
+  };
   console.log(urlDatabase);
-  console.log(request.body);  // debug statement to see POST parameters
-  response.redirect('/urls')         // Respond with 'Ok' (we will replace this) 
+  console.log(request.body); // debug statement to see POST parameters
+  response.redirect('/urls') // Respond with 'Ok' (we will replace this) 
 });
 
 //DELETE
@@ -129,14 +141,12 @@ app.post('/urls/:id/delete', function (request, response) {
   let urlsToDeleteId = request.params.id
   delete urlDatabase[urlsToDeleteId]
   response.redirect('/urls')
-  
-  if
- (urlDatabase.user_id == request.session["user_id"]){
-  request.session["urls/:shortURL"]
- }
- else {
-  response.redirect('/login')
-}
+
+  if (urlDatabase.user_id == request.session["user_id"]) {
+    request.session["urls/:shortURL"]
+  } else {
+    response.redirect('/login')
+  }
 })
 
 // allow to modify 
@@ -145,11 +155,12 @@ app.post('/urls/:id/delete', function (request, response) {
 app.get("/urls/:id", (request, response) => {
   let user_id = request.session["user_id"];
   let user = users[user_id];
-  let templateVars = { shortURL: request.params.id, 
-                      urls: urlDatabase, 
-                      longURL: urlDatabase[request.params.id],
-                      username: users.email 
-    };
+  let templateVars = {
+    shortURL: request.params.id,
+    urls: urlDatabase,
+    longURL: urlDatabase[request.params.id],
+    username: users.email
+  };
   response.render("urls_show", templateVars);
 });
 
@@ -158,7 +169,7 @@ app.post("/urls/:id", (request, response) => {
   console.log(request.body.newurl)
   let urlsToEditId = request.params.id
   let user_id = request.session["user_id"];
-  
+
   urlDatabase[urlsToEditId].longURL = request.body.newurl
 
   response.redirect('/urls')
@@ -167,11 +178,11 @@ app.post("/urls/:id", (request, response) => {
 // cookies log out
 app.post("/logout", (request, response) => {
   //changed the cookie name form username to user_id
-request.session.user_id;
+  request.session.user_id;
 
 
-response.redirect('/login')
-  });
+  response.redirect('/login')
+});
 
 
 app.get('/register', (request, response) => {
@@ -180,65 +191,67 @@ app.get('/register', (request, response) => {
 
 // set cookies for username and password and User ID 
 app.post('/register', (request, response) => {
-let user_id = generateRandomId();
-let email = request.body.email
-let password = request.body.password
-const hashedPassword = bcrypt.hashSync(password, 10);
+  let user_id = generateRandomId();
+  let email = request.body.email
+  let password = request.body.password
+  const hashedPassword = bcrypt.hashSync(password, 10);
 
 
-console.log(user_id)
-let userInDatabaseEmail = false
-//a for loop that finds a user with that email in our database
+  console.log(user_id)
+  let userInDatabaseEmail = false
+  //a for loop that finds a user with that email in our database
 
-for (var id in users) {
-  if (users[id].email === email) {
-  
-// if you find it, put that users email in userInDatabaseEmail
-//if true 
-userInDatabaseEmail = true
-}
-}
+  for (var id in users) {
+    if (users[id].email === email) {
 
- if (email === ''){
-    response.status(400).send("Error code:400 -Sorry! try registering using an email.");
-  } else if (password=== ''){
-    response.status(400).send("Error code:400 -Sorry! try registering using a password.");
-  } else if (userInDatabaseEmail === true){
-    response.status(400).send("Error code:400 - Sorry! Email has been already register, Pick a unique email");
-  }
-  else {
-    users[user_id] = { user_id: user_id,
-      email: email, password: hashedPassword}
-      request.session.user_id = user_id
-      response.redirect('/urls')
+      // if you find it, put that users email in userInDatabaseEmail
+      //if true 
+      userInDatabaseEmail = true
     }
-  })
+  }
 
-  app.get('/login', (request, response) => {
-    response.render('login')
-  })
+  if (email === '') {
+    response.status(400).send("Error code:400 -Sorry! try registering using an email.");
+  } else if (password === '') {
+    response.status(400).send("Error code:400 -Sorry! try registering using a password.");
+  } else if (userInDatabaseEmail === true) {
+    response.status(400).send("Error code:400 - Sorry! Email has been already register, Pick a unique email");
+  } else {
+    users[user_id] = {
+      user_id: user_id,
+      email: email,
+      password: hashedPassword
+    }
+    request.session.user_id = user_id
+    response.redirect('/urls')
+  }
+})
 
-  app.post('/login', (request, response) => {
-    let password = request.body.password
-    let email = request.body.email
-    
-    console.log(password,email);
-    
-    //a for IN loop that finds if user or password has been register
-    for (var id in users) {
-      if (users[id].email === email) { 
-        if (bcrypt.compareSync(password, users[id].password)){ 
-             request.session.user_id = id
-             response.redirect('/urls')
-        }
+app.get('/login', (request, response) => {
+  response.render('login')
+})
+
+app.post('/login', (request, response) => {
+  let password = request.body.password
+  let email = request.body.email
+
+  console.log(password, email);
+
+  //a for IN loop that finds if user or password has been register
+  for (var id in users) {
+    if (users[id].email === email) {
+      if (bcrypt.compareSync(password, users[id].password)) {
+        request.session.user_id = id
+        response.redirect('/urls')
       }
     }
+  }
 
-    response.status(400).send("wrong, The email or password is inccorrect");
+  response.status(400).send("wrong, The email or password is inccorrect");
 
- }) 
+})
 
-  //random user id
+//random user id
 function generateRandomId() {
   let chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
   let string_length = 8;
