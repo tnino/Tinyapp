@@ -36,7 +36,7 @@ mpn run Express
 
 
 ### preview the short Url direct
-
+![ScreenShot](https://tnino.github.com/{tnino}/{tinyapp}/{views}/{login.ejs})
 
 You should be ready to go, enjoy :+1:
 
