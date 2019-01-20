@@ -14,3 +14,7 @@ This project is designed for you to enter a long URL and obtaining ashort URl so
 You must install all the dependecies before running the server
 to install run command  - mpn run (package- required)
 
+# ScreenShots
+
+still need to add screen shots
+
