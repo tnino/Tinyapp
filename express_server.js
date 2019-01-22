@@ -11,7 +11,7 @@ app.use(cookieSession({
   name: 'session',
   keys: ["tacos"],
 
-  // Cookie Options
+// Cookie Options
   maxAge: 24 * 60 * 60 * 1000 // 24 hours
 }))
 
@@ -24,7 +24,7 @@ app.set("view engine", "ejs");
 app.use(morgan('dev'));
 app.use(express.static('public'));
 
-var urlDatabase = {
+let urlDatabase = {
   "b2xVn2": {
     longURL: "http://www.lighthouselabs.ca",
     user_id: "userRandomID1"
@@ -58,13 +58,13 @@ const users = {
   }
 }
 
-//random user id
+//Random user ID generator
 function generateRandomId() {
   let chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
   let string_length = 8;
   let randomid = '';
-  for (var i = 0; i < string_length; i++) {
-    var rnum = Math.floor(Math.random() * chars.length);
+  for (let i = 0; i < string_length; i++) {
+    let rnum = Math.floor(Math.random() * chars.length);
     randomid += chars.substring(rnum, rnum + 1);
   }
   return randomid
@@ -97,8 +97,8 @@ app.get("/urls", (request, response) => {
 });
 
 function urlsForUserId(id) {
-  var newUrls = {};
-  for (var A in urlDatabase) {
+  let newUrls = {};
+  for (let A in urlDatabase) {
     if (id == urlDatabase[A].user_id) {
       newUrls[A] = urlDatabase[A]
     }
@@ -107,7 +107,7 @@ function urlsForUserId(id) {
 }
 
 
-//create a new url
+//Create a new url
 app.get("/urls/new", (request, response) => {
   response.render("urls_new");
   if (!user) {
@@ -115,14 +115,14 @@ app.get("/urls/new", (request, response) => {
   }
 });
 
-//redirect page
+//Redirect page
 app.get("/u/:shortURL", (request, response) => {
   let longURL = urlDatabase[request.params.shortURL].longURL
   console.log(longURL);
   response.redirect(longURL);
 });
 
-//ADD a new link
+//Add a new link
 app.post("/urls", (request, response) => {
   let newurl = generateRandomString()
   let longURL = request.body.longURL
@@ -136,7 +136,7 @@ app.post("/urls", (request, response) => {
   response.redirect('/urls') // Respond with 'Ok' (we will replace this) 
 });
 
-//DELETE
+//Delete
 app.post('/urls/:id/delete', function (request, response) {
   let urlsToDeleteId = request.params.id
   delete urlDatabase[urlsToDeleteId]
@@ -149,9 +149,7 @@ app.post('/urls/:id/delete', function (request, response) {
   }
 })
 
-// allow to modify 
-
-//editing page 
+//Editing page 
 app.get("/urls/:id", (request, response) => {
   let user_id = request.session["user_id"];
   let user = users[user_id];
@@ -164,7 +162,7 @@ app.get("/urls/:id", (request, response) => {
   response.render("urls_show", templateVars);
 });
 
-//MAKE changes
+//edit changes
 app.post("/urls/:id", (request, response) => {
   console.log(request.body.newurl)
   let urlsToEditId = request.params.id
@@ -199,13 +197,12 @@ app.post('/register', (request, response) => {
 
   console.log(user_id)
   let userInDatabaseEmail = false
-  //a for loop that finds a user with that email in our database
+//a for loop that finds a user with that email in our database
 
-  for (var id in users) {
+  for (let id in users) {
     if (users[id].email === email) {
 
-      // if you find it, put that users email in userInDatabaseEmail
-      //if true 
+// if you find it, put that users email in userInDatabaseEmail
       userInDatabaseEmail = true
     }
   }
@@ -238,7 +235,7 @@ app.post('/login', (request, response) => {
   console.log(password, email);
 
   //a for IN loop that finds if user or password has been register
-  for (var id in users) {
+  for (let id in users) {
     if (users[id].email === email) {
       if (bcrypt.compareSync(password, users[id].password)) {
         request.session.user_id = id
@@ -256,8 +253,8 @@ function generateRandomId() {
   let chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
   let string_length = 8;
   let randomid = '';
-  for (var i = 0; i < string_length; i++) {
-    var rnum = Math.floor(Math.random() * chars.length);
+  for (let i = 0; i < string_length; i++) {
+    let rnum = Math.floor(Math.random() * chars.length);
     randomid += chars.substring(rnum, rnum + 1);
   }
   return randomid
@@ -265,11 +262,11 @@ function generateRandomId() {
 
 //random function
 function generateRandomString() {
-  var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
-  var string_length = 6;
-  var results = '';
-  for (var i = 0; i < string_length; i++) {
-    var rnum = Math.floor(Math.random() * chars.length);
+  let chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
+  letstring_length = 6;
+  let results = '';
+  for (let i = 0; i < string_length; i++) {
+    let rnum = Math.floor(Math.random() * chars.length);
     results += chars.substring(rnum, rnum + 1);
   }
   return results

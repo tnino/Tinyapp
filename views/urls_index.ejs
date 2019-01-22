@@ -13,37 +13,39 @@
     </header>
 
     <center>
-        <h1> All URLs that you have created: </h1>
+        <h1> All urls that you have created: </h1>
     </center>
 
-    <center>
-        <h1>
-            <% urls %>
-        </h1>
-    </center>
+
 
     <ul>
-        <% for (var shortURL in urls) { %>
-        
+        <div><div class="box0"><% for (var shortURL in urls) { %>
         <center><%= shortURL %></center>
-        <center><%= urls[shortURL].longURL %></center>
-            <form method="POST" action=<%=`/urls/${shortURL}/delete` %>>
-                <label for="login"> If you want to delete a long URL </label><br><button type="submit">DELETE</button></form>
-            <form method="GET" action=<%=`/urls/${shortURL}` %>>
+        <center><%= urls[shortURL].longURL %></center></div></div>
+
+           <div> 
+           <div class="box1">
+           <form method="POST" action=<%=`/urls/${shortURL}/delete` %>>
+                <label for="login"> If you want to delete a long URL </label><br>
+                <button type="submit">DELETE</button></form>
+                </div>
+                <div class="box2"><form method="GET" action=<%=`/urls/${shortURL}` %>>
                 <label for="login"> If you want to edit a long link into a short link </label><br>
                 <button type="submit">EDIT</button></form>
+                </div>
+                <div class="box3">
             <form method="GET" action=<%=`/u/${shortURL}` %>>
                 <label for="login"> If you want to redirect to the website </label><br>
-                <button type="submit">REDIRECT</button></form>
+                <button type="submit">REDIRECT</button></form></div></div>
         <% } %>
     </ul>
 
-    <center><hi>ADD MORE</hi></center>
-
+  
+<div class="box4">
     <form method="GET" action=<%=`/urls/new` %>>
         <label for="login"> If you want to convert a long link into a short link </label><br>
         <button type="submit">CONVERT</button></form>
-
+</div>
 
 </body>
 
