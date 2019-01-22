@@ -41,3 +41,4 @@ https://www.screencast.com/t/R8gleO9H
 
 You should be ready to go, enjoy :+1:
 
+<img width="1664" alt="screen shot 2019-01-20 at 3 19 22 pm" src="https://user-images.githubusercontent.com/30389051/51506361-aec3df80-1db1-11e9-9584-51a42be00309.png">
