@@ -25,6 +25,11 @@ Example: to run Express:
 mpn run Express
 ``` 
 
+## in order to run app, ypu eed to run:
+```
+npm start
+``` 
+
 ## ScreenShots
 
 ### The login window:
