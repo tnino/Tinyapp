@@ -27,18 +27,19 @@ mpn run Express
 
 ## ScreenShots
 
-### preview of how to convert a long URL into a short one
-https://www.screencast.com/t/E9lZnwN8Xp
+### the login window
+<img width="1664" alt="screen shot 2019-01-20 at 3 19 22 pm" src="https://user-images.githubusercontent.com/30389051/51506361-aec3df80-1db1-11e9-9584-51a42be00309.png">
 
 ### preview of how to modify the link if you make a typo.
-https://www.screencast.com/t/sQAUvEtZkhSD
+<img width="1662" alt="screen shot 2019-01-20 at 3 20 30 pm" src="https://user-images.githubusercontent.com/30389051/51506456-08c4a500-1db2-11e9-96d5-eb921c715f94.png">
+
 
 ### preview of all the URLs that you have created and an option to delete if you dont longer need it.
 
-https://www.screencast.com/t/R8gleO9H
+<img width="1664" alt="screen shot 2019-01-20 at 3 19 22 pm" src="https://user-images.githubusercontent.com/30389051/51506412-d5821600-1db1-11e9-858c-82705f7c6843.png">
+
 
 
 
 You should be ready to go, enjoy :+1:
 
-<img width="1664" alt="screen shot 2019-01-20 at 3 19 22 pm" src="https://user-images.githubusercontent.com/30389051/51506361-aec3df80-1db1-11e9-9584-51a42be00309.png">
