@@ -1,12 +1,10 @@
-var express = require("express");
-var app = express();
-var PORT = 8080; // default port 8080
-var morgan = require('morgan')
-var express = require('express')
-var cookieSession = require('cookie-session')
+const express = require("express");
+let app = express();
+const PORT = 8080; // default port 8080
+const morgan = require('morgan')
+const cookieSession = require('cookie-session')
 const bcrypt = require('bcrypt');
 
-var app = express()
 app.use(cookieSession({
   name: 'session',
   keys: ["tacos"],
@@ -263,7 +261,7 @@ function generateRandomId() {
 //random function
 function generateRandomString() {
   let chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
-  letstring_length = 6;
+  let string_length = 6;
   let results = '';
   for (let i = 0; i < string_length; i++) {
     let rnum = Math.floor(Math.random() * chars.length);
